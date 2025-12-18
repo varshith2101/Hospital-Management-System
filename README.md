@@ -1,101 +1,592 @@
-# Healthcare Management System - Setup Guide
+# 🏥 Healthcare Management System
 
-## Prerequisites
+> A cloud-native Hospital Management System built with Spring Boot, featuring real-time bed availability tracking and comprehensive REST APIs for healthcare operations.
 
-The following software has been installed and configured:
-- ✅ Java JDK 25.0.1 (Temurin)
-- ✅ Apache Maven 3.9.12
-- ✅ JavaFX 21.0.1 (managed by Maven)
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-blue.svg)](https://kubernetes.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Project Structure
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [Architecture](#-architecture)
+- [Getting Started](#-getting-started)
+- [API Documentation](#-api-documentation)
+- [Real-Time Features](#-real-time-features)
+- [Deployment](#-deployment)
+- [Project Structure](#-project-structure)
+- [Documentation](#-documentation)
+- [Contributing](#-contributing)
+
+---
+
+## 🎯 Overview
+
+The Healthcare Management System (HMS) is a modern, cloud-native REST API application designed to streamline hospital operations. Built with Spring Boot and following microservices principles, it provides comprehensive management capabilities for doctors, patients, appointments, and real-time bed availability tracking.
+
+### What Makes This Special?
+
+- **Real-Time Bed Allocation** - Transaction-based bed management system similar to ATM operations in banking systems
+- **Microservices Architecture** - Clean separation of concerns with layered design
+- **Cloud-Native** - Containerized with Docker and ready for Kubernetes deployment
+- **Production-Ready** - Health checks, metrics, auto-scaling, and monitoring built-in
+
+---
+
+## ✨ Key Features
+
+### Core Functionality
+- 🏥 **Doctor Management** - Complete CRUD operations with availability tracking
+- 👥 **Patient Management** - Patient registration, admission, and discharge workflows
+- 📅 **Appointment Booking** - Schedule and manage doctor-patient appointments
+- 🛏️ **Real-Time Bed Availability** - Ward-wise bed tracking with instant allocation/release
+- 📊 **Medical History** - Comprehensive patient medical record management
+
+### Technical Highlights
+- ✅ **31+ REST API Endpoints** - Comprehensive API coverage
+- ✅ **Real-Time Transaction Validation** - Prevents double-booking and race conditions
+- ✅ **Database Persistence** - JPA/Hibernate with H2 (MySQL/PostgreSQL ready)
+- ✅ **Auto-Scaling** - Kubernetes HPA configuration (2-10 pods)
+- ✅ **Health Monitoring** - Spring Boot Actuator with liveness/readiness probes
+- ✅ **Containerized** - Multi-stage Docker builds for optimized deployment
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend
+- **Java 21** - Modern Java with latest LTS features
+- **Spring Boot 3.2.0** - Enterprise-grade framework
+- **Spring Data JPA** - Object-Relational Mapping
+- **Hibernate** - ORM implementation
+- **Maven** - Dependency management and build automation
+
+### Database
+- **H2 Database** - In-memory database for development
+- **MySQL/PostgreSQL** - Production database support (configured)
+
+### DevOps & Cloud
+- **Docker** - Container platform
+- **Kubernetes** - Container orchestration
+- **Spring Boot Actuator** - Application monitoring and metrics
+
+### Architecture Patterns
+- **Microservices Architecture** - Domain-driven service separation
+- **Layered Architecture** - Controller → Service → Repository → Entity
+- **Repository Pattern** - Data access abstraction
+- **RESTful Design** - Standard HTTP methods and status codes
+
+---
+
+## 🏗️ Architecture
+
+### System Architecture
 
 ```
-hms/
-├── HMS Project/
-│   └── proj1/
-│       └── src/
-│           ├── DRIVER/
-│           │   └── App.java (Main application class)
-│           ├── DoctorRelatedCodes/
-│           ├── PatientRelatedCodes/
-│           ├── AppointmentBookingCodes/
-│           ├── MedicalHistoryRelatedCodes/
-│           └── interfaces/
-├── pom.xml (Maven configuration)
-└── SETUP.md (this file)
+┌─────────────────────────────────────────────────────────────┐
+│                     Client Applications                      │
+│              (Web, Mobile, Desktop, APIs)                   │
+└────────────────────┬────────────────────────────────────────┘
+                     │ HTTP/REST
+┌────────────────────▼────────────────────────────────────────┐
+│                   Load Balancer (K8s Service)                │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+        ┌────────────┼────────────┐
+        │            │            │
+┌───────▼──────┐ ┌──▼──────┐ ┌──▼──────┐
+│   Pod 1      │ │  Pod 2  │ │  Pod 3  │  (Auto-scaled)
+│ HMS Instance │ │HMS Inst.│ │HMS Inst.│
+└───────┬──────┘ └──┬──────┘ └──┬──────┘
+        │           │           │
+        └───────────┼───────────┘
+                    │
+        ┌───────────▼────────────┐
+        │   Database (MySQL/H2)   │
+        └────────────────────────┘
 ```
 
-## How to Run the Application
+### Application Layers
 
-### Option 1: Using Maven (Recommended)
+```
+┌─────────────────────────────────────┐
+│    Controller Layer                 │  ← REST API Endpoints
+│    (HTTP Request/Response)          │     (@RestController)
+└─────────────────┬───────────────────┘
+                  │
+┌─────────────────▼───────────────────┐
+│    Service Layer                    │  ← Business Logic
+│    (Validation, Processing)         │     (@Service)
+└─────────────────┬───────────────────┘
+                  │
+┌─────────────────▼───────────────────┐
+│    Repository Layer                 │  ← Data Access
+│    (Database Operations)            │     (JpaRepository)
+└─────────────────┬───────────────────┘
+                  │
+┌─────────────────▼───────────────────┐
+│    Entity Layer                     │  ← Data Models
+│    (Database Tables)                │     (@Entity)
+└─────────────────────────────────────┘
+```
 
-Run the application using the JavaFX Maven plugin:
+### Database Schema
+
+```
+┌─────────────┐       ┌──────────────┐       ┌─────────────┐
+│  doctors    │◄──────┤ appointments │──────►│  patients   │
+├─────────────┤       ├──────────────┤       ├─────────────┤
+│ id (PK)     │       │ id (PK)      │       │ id (PK)     │
+│ name        │       │ doctor_id FK │       │ name        │
+│ age         │       │ patient_id FK│       │ age         │
+│ special...  │       │ appt_date    │       │ phone       │
+│ is_available│       │ reason       │       │ is_admitted │
+└─────────────┘       │ status       │       └──────┬──────┘
+                      └──────────────┘              │
+                                                    │ 1:1
+                                          ┌─────────▼──────────┐
+                                          │ medical_history    │
+                                          ├────────────────────┤
+                                          │ id (PK)            │
+                                          │ has_diabetes       │
+                                          │ medications        │
+                                          │ allergies          │
+                                          └────────────────────┘
+┌──────────────────┐
+│ bed_availability │
+├──────────────────┤
+│ id (PK)          │
+│ bed_number       │
+│ ward_name        │
+│ is_available     │
+│ patient_id (FK)  │─────► patients.id
+└──────────────────┘
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Java 21** or higher
+- **Maven 3.9+**
+- **Docker** (optional, for containerization)
+- **kubectl** (optional, for Kubernetes deployment)
+
+### Quick Start
+
+#### 1. Clone the Repository
 
 ```bash
-mvn clean javafx:run
+git clone https://github.com/yourusername/hms.git
+cd hms
 ```
 
-This command will:
-1. Clean any previous builds
-2. Compile the source code
-3. Launch the JavaFX application with all necessary modules
-
-### Option 2: Compile and Run Separately
-
-1. Compile the project:
-```bash
-mvn clean compile
-```
-
-2. Run the application:
-```bash
-mvn javafx:run
-```
-
-### Option 3: Create an Executable JAR
-
-Build a standalone JAR file:
+#### 2. Build the Project
 
 ```bash
 mvn clean package
 ```
 
-This creates a JAR file in the `target/` directory. However, note that JavaFX applications require special handling for module paths, so Option 1 is recommended for development.
+#### 3. Run the Application
 
-## Application Features
+```bash
+mvn spring-boot:run
+```
 
-The Healthcare Management System provides the following functionality:
+The application will start on **http://localhost:8080**
 
-1. **Add Doctor** - Register new doctors with their details (name, ID, age, specialization, qualification, schedule, etc.)
-2. **Add Patient** - Register new patients with their details (name, age, height, weight, gender, medical history)
-3. **Book Appointment** - Schedule appointments between doctors and patients
-4. **View Appointments** - View all appointments for a specific patient
-5. **Search Doctor** - Search for doctors by ID or name
-6. **Search Patient** - Search for patients by ID or name
+#### 4. Verify It's Running
 
-## Troubleshooting
+```bash
+curl http://localhost:8080/actuator/health
+```
 
-### If you encounter module errors:
-Make sure you're using the `mvn javafx:run` command, which automatically configures the JavaFX module path.
+Expected response:
+```json
+{
+  "status": "UP"
+}
+```
 
-### If the GUI doesn't appear:
-Ensure you're running from the project root directory (`/Users/varshith/sandbox/hms/`) where the `pom.xml` file is located.
+### Access H2 Database Console
 
-### If compilation fails:
-1. Clean the project: `mvn clean`
-2. Update dependencies: `mvn dependency:resolve`
-3. Try compiling again: `mvn compile`
+Open your browser and navigate to:
+```
+http://localhost:8080/h2-console
+```
 
-## Development
+**Connection Details:**
+- JDBC URL: `jdbc:h2:mem:hmsdb`
+- Username: `sa`
+- Password: (leave empty)
 
-To modify the source code:
-1. Edit files in `HMS Project/proj1/src/`
-2. Recompile with `mvn compile`
-3. Run with `mvn javafx:run`
+---
 
-## Notes
+## 📡 API Documentation
 
-- The project uses JavaFX for the GUI
-- Patient IDs and Doctor IDs are automatically generated
-- Data is stored in memory (arrays) and not persisted to disk
-- Maximum capacity: 100 doctors, 100 patients, 100 appointments
+### Base URL
+```
+http://localhost:8080/api
+```
+
+### Doctor Management APIs
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/doctors` | Create a new doctor |
+| `GET` | `/doctors` | Get all doctors |
+| `GET` | `/doctors/{id}` | Get doctor by ID |
+| `GET` | `/doctors/available` | Get all available doctors |
+| `GET` | `/doctors/specialization/{name}` | Filter doctors by specialization |
+| `PUT` | `/doctors/{id}` | Update doctor details |
+| `PATCH` | `/doctors/{id}/toggle-availability` | Toggle doctor availability |
+| `DELETE` | `/doctors/{id}` | Delete a doctor |
+
+### Patient Management APIs
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/patients` | Register a new patient |
+| `GET` | `/patients` | Get all patients |
+| `GET` | `/patients/{id}` | Get patient by ID |
+| `GET` | `/patients/admitted` | Get all admitted patients |
+| `PUT` | `/patients/{id}` | Update patient details |
+| `PATCH` | `/patients/{id}/admit` | Admit patient to hospital |
+| `PATCH` | `/patients/{id}/discharge` | Discharge patient |
+| `DELETE` | `/patients/{id}` | Delete a patient |
+
+### Appointment Management APIs
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/appointments` | Book a new appointment |
+| `GET` | `/appointments` | Get all appointments |
+| `GET` | `/appointments/{id}` | Get appointment by ID |
+| `GET` | `/appointments/patient/{id}` | Get patient's appointments |
+| `GET` | `/appointments/doctor/{id}` | Get doctor's appointments |
+| `PATCH` | `/appointments/{id}/status` | Update appointment status |
+| `DELETE` | `/appointments/{id}` | Cancel appointment |
+
+### Bed Availability APIs (Real-Time)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/beds` | Add a new bed |
+| `GET` | `/beds` | Get all beds |
+| `GET` | `/beds/available` | Get available beds (real-time) |
+| `GET` | `/beds/available/ward/{name}` | Get available beds by ward |
+| `GET` | `/beds/stats` | Get real-time bed statistics |
+| `GET` | `/beds/stats/ward/{name}` | Get ward-specific statistics |
+| `POST` | `/beds/allocate` | Allocate bed to patient |
+| `POST` | `/beds/release` | Release bed |
+
+### Example API Requests
+
+#### Create a Doctor
+```bash
+curl -X POST http://localhost:8080/api/doctors \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Dr. Rajesh Kumar",
+    "age": 45,
+    "specialization": "Cardiology",
+    "qualification": "MD, DM Cardiology",
+    "shiftType": "Day",
+    "opdDays": "Mon,Wed,Fri",
+    "dateOfJoining": "2020-01-15",
+    "salary": 150000.00,
+    "isAvailable": true
+  }'
+```
+
+#### Check Bed Availability (Real-Time)
+```bash
+curl http://localhost:8080/api/beds/stats
+```
+
+Response:
+```json
+{
+  "totalBeds": 100,
+  "availableBeds": 45,
+  "occupiedBeds": 55
+}
+```
+
+#### Allocate Bed
+```bash
+curl -X POST "http://localhost:8080/api/beds/allocate?bedNumber=ICU-101&patientId=1"
+```
+
+---
+
+## ⚡ Real-Time Features
+
+### Real-Time Bed Availability System
+
+The bed allocation system works similar to ATM transactions in banking:
+
+#### ATM Withdrawal vs Bed Allocation
+
+| ATM Transaction | Bed Allocation |
+|----------------|----------------|
+| Check account balance | Check bed availability |
+| Verify sufficient funds | Verify bed is free |
+| Withdraw cash | Allocate bed to patient |
+| Update balance immediately | Update bed status & patient status |
+| Prevent overdraft | Prevent double-booking |
+
+#### How It Works
+
+1. **Check Availability**
+   ```bash
+   GET /api/beds/stats
+   ```
+   Returns real-time count of available/occupied beds
+
+2. **Allocate Bed**
+   ```bash
+   POST /api/beds/allocate?bedNumber=ICU-101&patientId=5
+   ```
+   - Validates bed exists and is available
+   - Updates bed status to occupied
+   - Updates patient admission status
+   - Both operations are atomic (transaction-based)
+
+3. **Real-Time Prevention**
+   - If same bed is requested simultaneously, only one request succeeds
+   - Database-level locking prevents race conditions
+   - Immediate error response for conflicting requests
+
+4. **Release Bed**
+   ```bash
+   POST /api/beds/release?bedNumber=ICU-101
+   ```
+   - Marks bed as available
+   - Updates patient discharge status
+   - Stats update immediately
+
+---
+
+## 🐳 Deployment
+
+### Docker Deployment
+
+#### Build Docker Image
+```bash
+docker build -t hms:latest .
+```
+
+#### Run Container
+```bash
+docker run -p 8080:8080 hms:latest
+```
+
+#### Health Check
+```bash
+docker ps  # Check container health status
+curl http://localhost:8080/actuator/health
+```
+
+---
+
+### Kubernetes Deployment
+
+#### Prerequisites
+- Kubernetes cluster (Minikube, GKE, EKS, AKS, etc.)
+- kubectl configured
+
+#### Deploy Application
+
+```bash
+# Apply all Kubernetes configs
+kubectl apply -f k8s/
+
+# Check deployment status
+kubectl get deployments
+kubectl get pods
+kubectl get services
+kubectl get hpa
+```
+
+#### Access Application
+
+```bash
+# Port forward to local machine
+kubectl port-forward service/hms-service 8080:80
+
+# Access application
+curl http://localhost:8080/actuator/health
+```
+
+#### Kubernetes Features
+
+- **High Availability**: 3 replica pods
+- **Auto-Scaling**: Horizontal Pod Autoscaler (2-10 pods)
+- **Health Checks**: Liveness and readiness probes
+- **Load Balancing**: Service-based traffic distribution
+- **Resource Management**: CPU and memory limits
+
+#### Scale Manually
+```bash
+kubectl scale deployment hms-deployment --replicas=5
+```
+
+#### View Logs
+```bash
+kubectl logs -f deployment/hms-deployment
+```
+
+#### Delete Deployment
+```bash
+kubectl delete -f k8s/
+```
+
+---
+
+## 📂 Project Structure
+
+```
+hms/
+├── src/
+│   ├── main/
+│   │   ├── java/com/hms/
+│   │   │   ├── HmsApplication.java          # Main entry point
+│   │   │   ├── controller/                  # REST Controllers
+│   │   │   │   ├── DoctorController.java
+│   │   │   │   ├── PatientController.java
+│   │   │   │   ├── AppointmentController.java
+│   │   │   │   └── BedAvailabilityController.java
+│   │   │   ├── service/                     # Business Logic
+│   │   │   │   ├── DoctorService.java
+│   │   │   │   ├── PatientService.java
+│   │   │   │   ├── AppointmentService.java
+│   │   │   │   └── BedAvailabilityService.java
+│   │   │   ├── repository/                  # Data Access Layer
+│   │   │   │   ├── DoctorRepository.java
+│   │   │   │   ├── PatientRepository.java
+│   │   │   │   ├── AppointmentRepository.java
+│   │   │   │   └── BedAvailabilityRepository.java
+│   │   │   └── domain/                      # JPA Entities
+│   │   │       ├── Doctor.java
+│   │   │       ├── Patient.java
+│   │   │       ├── Appointment.java
+│   │   │       ├── MedicalHistory.java
+│   │   │       └── BedAvailability.java
+│   │   └── resources/
+│   │       └── application.properties       # Application configuration
+│   └── test/                                # Test files
+├── k8s/                                     # Kubernetes configs
+│   ├── deployment.yaml                      # Deployment configuration
+│   ├── configmap.yaml                       # Configuration map
+│   └── hpa.yaml                            # Horizontal Pod Autoscaler
+├── Dockerfile                               # Docker configuration
+├── .dockerignore                           # Docker ignore rules
+├── pom.xml                                 # Maven configuration
+├── .gitignore                              # Git ignore rules
+└── README.md                               # This file
+```
+
+---
+
+## 🧪 Testing
+
+### Run Tests
+```bash
+mvn test
+```
+
+### Manual API Testing
+Use the provided test scripts in [`docs/API_TESTING_GUIDE.md`](./docs/API_TESTING_GUIDE.md)
+
+### Health Check Endpoints
+```bash
+# Overall health
+curl http://localhost:8080/actuator/health
+
+# Liveness probe
+curl http://localhost:8080/actuator/health/liveness
+
+# Readiness probe
+curl http://localhost:8080/actuator/health/readiness
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Varshith Jalla**
+
+- LinkedIn: [Varshith Jalla](https://www.linkedin.com/in/varshith-jalla)
+- GitHub: [@Varshith2101](https://github.com/Varshith2101)
+- Email: Varshith.web.dev@gmail.com
+
+---
+
+## 🙏 Acknowledgments
+
+- Spring Boot team for the excellent framework
+- The open-source community for inspiration and tools
+- Domain-driven design principles for architectural guidance
+
+---
+
+## 📊 Project Statistics
+
+- **Total API Endpoints:** 31+
+- **Database Tables:** 5
+- **Lines of Code:** ~2000+
+- **Languages:** Java, SQL
+- **Frameworks:** Spring Boot, Hibernate
+- **Deployment:** Docker, Kubernetes
+
+---
+
+## 🎯 Future Enhancements
+
+- [ ] Add authentication and authorization (Spring Security + JWT)
+- [ ] Implement caching with Redis
+- [ ] Add API documentation with Swagger/OpenAPI
+- [ ] Create frontend dashboard with React
+- [ ] Add email/SMS notifications for appointments
+- [ ] Implement audit logging
+- [ ] Add comprehensive test coverage
+- [ ] Set up CI/CD pipeline
+- [ ] Add monitoring with Prometheus/Grafana
+- [ ] Implement pagination for large datasets
+
+---
+
+<div align="center">
+
+**⭐ If you find this project useful, please consider giving it a star!**
+
+Made with ❤️ by Varshith Jalla
+
+</div>

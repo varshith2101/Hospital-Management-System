@@ -1,0 +1,35 @@
+# Ignore files and directories for Docker build optimization
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+SETUP.md
+*.md
+
+# Old JavaFX project (keeping source for reference)
+HMS Project/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
