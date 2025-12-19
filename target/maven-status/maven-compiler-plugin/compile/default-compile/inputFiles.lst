@@ -17,4 +17,5 @@
 /Users/varshith/sandbox/hms/src/main/java/com/hms/HmsApplication.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/controller/BedAvailabilityController.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/repository/PatientRepository.java
+/Users/varshith/sandbox/hms/src/main/java/com/hms/config/WebConfig.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/domain/MedicalHistory.java
