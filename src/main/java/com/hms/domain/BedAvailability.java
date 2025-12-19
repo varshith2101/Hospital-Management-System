@@ -1,5 +1,6 @@
 package com.hms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +25,7 @@ public class BedAvailability {
 
     @OneToOne
     @JoinColumn(name = "patient_id")
+    @JsonIgnoreProperties({"appointments", "medicalHistory"})
     private Patient patient; // Current patient occupying the bed (if any)
 
     // Default constructor

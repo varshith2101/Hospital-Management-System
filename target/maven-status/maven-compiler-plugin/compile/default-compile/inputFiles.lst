@@ -1,3 +1,4 @@
+/Users/varshith/sandbox/hms/src/main/java/com/hms/repository/MedicalHistoryRepository.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/controller/DoctorController.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/domain/BedAvailability.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/repository/AppointmentRepository.java
@@ -12,6 +13,7 @@
 /Users/varshith/sandbox/hms/src/main/java/com/hms/service/BedAvailabilityService.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/domain/Doctor.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/domain/Appointment.java
+/Users/varshith/sandbox/hms/src/main/java/com/hms/config/DataSeeder.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/HmsApplication.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/controller/BedAvailabilityController.java
 /Users/varshith/sandbox/hms/src/main/java/com/hms/repository/PatientRepository.java

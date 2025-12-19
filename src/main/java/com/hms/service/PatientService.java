@@ -1,6 +1,8 @@
 package com.hms.service;
 
+import com.hms.domain.BedAvailability;
 import com.hms.domain.Patient;
+import com.hms.repository.BedAvailabilityRepository;
 import com.hms.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,9 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private BedAvailabilityRepository bedAvailabilityRepository;
 
     public Patient createPatient(Patient patient) {
         return patientRepository.save(patient);
@@ -53,6 +58,19 @@ public class PatientService {
     public Patient admitPatient(Long id, String bedNumber) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        // Find and update the bed
+        Optional<BedAvailability> bedOpt = bedAvailabilityRepository.findByBedNumber(bedNumber);
+        if (bedOpt.isPresent()) {
+            BedAvailability bed = bedOpt.get();
+            if (!bed.getIsAvailable()) {
+                throw new RuntimeException("Bed is already occupied");
+            }
+            bed.setIsAvailable(false);
+            bed.setPatient(patient);
+            bedAvailabilityRepository.save(bed);
+        }
+
         patient.setIsAdmitted(true);
         patient.setBedNumber(bedNumber);
         return patientRepository.save(patient);
@@ -62,6 +80,18 @@ public class PatientService {
     public Patient dischargePatient(Long id) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        // Release the bed if patient is currently admitted to one
+        if (patient.getBedNumber() != null) {
+            Optional<BedAvailability> bedOpt = bedAvailabilityRepository.findByBedNumber(patient.getBedNumber());
+            if (bedOpt.isPresent()) {
+                BedAvailability bed = bedOpt.get();
+                bed.setIsAvailable(true);
+                bed.setPatient(null);
+                bedAvailabilityRepository.save(bed);
+            }
+        }
+
         patient.setIsAdmitted(false);
         patient.setBedNumber(null);
         return patientRepository.save(patient);

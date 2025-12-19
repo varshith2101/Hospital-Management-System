@@ -3,6 +3,7 @@ com/hms/domain/MedicalHistory.class
 com/hms/domain/Appointment$AppointmentStatus.class
 com/hms/domain/BedAvailability.class
 com/hms/repository/PatientRepository.class
+com/hms/repository/MedicalHistoryRepository.class
 com/hms/domain/Doctor.class
 com/hms/controller/DoctorController.class
 com/hms/repository/BedAvailabilityRepository.class
@@ -17,3 +18,4 @@ com/hms/service/DoctorService.class
 com/hms/domain/Patient.class
 com/hms/service/PatientService.class
 com/hms/service/BedAvailabilityService.class
+com/hms/config/DataSeeder.class
