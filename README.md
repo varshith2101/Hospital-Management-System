@@ -6,14 +6,14 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://www.postgresql.org/)
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
-[![Live](https://img.shields.io/badge/Status-Live-success.svg)](https://your-hms-frontend.vercel.app)
+[![Live](https://img.shields.io/badge/Status-Live-success.svg)](https://hms-frontend-chi.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## 🌐 Live Demo
 
 **⚡ The application is LIVE and deployed!**
 
-- **Frontend (React):** [https://your-hms-frontend.vercel.app](https://your-hms-frontend.vercel.app) 🎨
+- **Frontend (React):** [Live on Vercel](https://hms-frontend-chi.vercel.app/) 🎨
 - **Backend API:** [Live on Render](https://hms-backend-bbl7.onrender.com) ⚙️
 - **Database:** PostgreSQL on Neon (Serverless) 🗄️
 
@@ -196,7 +196,7 @@ The Healthcare Management System (HMS) is a modern, cloud-native full-stack appl
 
 The easiest way to try HMS is to visit the live deployment:
 
-🌐 **[Live Demo](https://your-hms-frontend.vercel.app)**
+🌐 **[Live Demo](https://hms-frontend-chi.vercel.app/)**
 
 The application is pre-loaded with sample data including:
 - 15 Doctors across various specializations
@@ -240,7 +240,7 @@ Backend will start on **http://localhost:8080**
 
 The frontend is in a separate repository:
 
-**Frontend Repository:** [https://github.com/yourusername/hms-frontend](https://github.com/varshith2101/HMS-Frontend)
+**Frontend Repository:** [Frontend Repo](https://github.com/varshith2101/HMS-Frontend)
 
 See the frontend README for setup instructions.
 
@@ -544,7 +544,7 @@ hms/
 
 ### Frontend Repository (Separate)
 
-**Repository:** [https://github.com/yourusername/hms-frontend](https://github.com/yourusername/hms-frontend)
+**Repository:** [Frontend Repo](https://github.com/varshith2101/HMS-Frontend)
 
 The frontend is a React application with Neo-brutalism design, deployed separately on Vercel.
 
@@ -649,7 +649,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ If you find this project useful, please consider giving it a star!**
 
-**🌐 Live Demo:** [https://your-hms-frontend.vercel.app](https://your-hms-frontend.vercel.app)
+**🌐 Live Demo:** [DEMO](https://hms-frontend-chi.vercel.app/)
 
 Made with ❤️ by Varshith Jalla
 
