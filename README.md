@@ -14,7 +14,7 @@
 **⚡ The application is LIVE and deployed!**
 
 - **Frontend (React):** [https://your-hms-frontend.vercel.app](https://your-hms-frontend.vercel.app) 🎨
-- **Backend API:** [Live on Render](https://your-hms-backend.onrender.com) ⚙️
+- **Backend API:** [Live on Render](https://hms-backend-bbl7.onrender.com) ⚙️
 - **Database:** PostgreSQL on Neon (Serverless) 🗄️
 
 > **Note:** Backend may take 30-60 seconds to wake up on first request (free tier limitation)
@@ -240,7 +240,7 @@ Backend will start on **http://localhost:8080**
 
 The frontend is in a separate repository:
 
-**Frontend Repository:** [https://github.com/yourusername/hms-frontend](https://github.com/yourusername/hms-frontend)
+**Frontend Repository:** [https://github.com/yourusername/hms-frontend](https://github.com/varshith2101/HMS-Frontend)
 
 See the frontend README for setup instructions.
 
@@ -596,7 +596,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Varshith Jalla**
 
-- LinkedIn: [Varshith Jalla](https://www.linkedin.com/in/varshith-jalla)
+- LinkedIn: [Varshith Jalla](www.linkedin.com/in/varshith-jalla-a39549248)
 - GitHub: [@Varshith2101](https://github.com/Varshith2101)
 - Email: Varshith.web.dev@gmail.com
 
