@@ -2,11 +2,22 @@
 
 > A cloud-native Hospital Management System built with Spring Boot, featuring real-time bed availability tracking and comprehensive REST APIs for healthcare operations.
 
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/)
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.java.net/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-blue.svg)](https://kubernetes.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://www.postgresql.org/)
+[![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
+[![Live](https://img.shields.io/badge/Status-Live-success.svg)](https://your-hms-frontend.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+## 🌐 Live Demo
+
+**⚡ The application is LIVE and deployed!**
+
+- **Frontend (React):** [https://your-hms-frontend.vercel.app](https://your-hms-frontend.vercel.app) 🎨
+- **Backend API:** [Live on Render](https://your-hms-backend.onrender.com) ⚙️
+- **Database:** PostgreSQL on Neon (Serverless) 🗄️
+
+> **Note:** Backend may take 30-60 seconds to wake up on first request (free tier limitation)
 
 ---
 
@@ -28,14 +39,15 @@
 
 ## 🎯 Overview
 
-The Healthcare Management System (HMS) is a modern, cloud-native REST API application designed to streamline hospital operations. Built with Spring Boot and following microservices principles, it provides comprehensive management capabilities for doctors, patients, appointments, and real-time bed availability tracking.
+The Healthcare Management System (HMS) is a modern, cloud-native full-stack application designed to streamline hospital operations. Built with Spring Boot backend and React frontend, following microservices principles, it provides comprehensive management capabilities for doctors, patients, appointments, and real-time bed availability tracking.
 
 ### What Makes This Special?
 
 - **Real-Time Bed Allocation** - Transaction-based bed management system similar to ATM operations in banking systems
-- **Microservices Architecture** - Clean separation of concerns with layered design
-- **Cloud-Native** - Containerized with Docker and ready for Kubernetes deployment
-- **Production-Ready** - Health checks, metrics, auto-scaling, and monitoring built-in
+- **Neo-Brutalism Design** - Bold, modern UI with vibrant colors and geometric shapes
+- **Cloud-Native** - Fully deployed on cloud infrastructure (Render + Neon + Vercel)
+- **Production-Ready** - Health checks, metrics, monitoring, and live deployment
+- **100% Free Hosting** - Deployed without any hosting costs using free tiers
 
 ---
 
@@ -47,33 +59,40 @@ The Healthcare Management System (HMS) is a modern, cloud-native REST API applic
 - 📅 **Appointment Booking** - Schedule and manage doctor-patient appointments
 - 🛏️ **Real-Time Bed Availability** - Ward-wise bed tracking with instant allocation/release
 - 📊 **Medical History** - Comprehensive patient medical record management
+- 🎨 **Neo-Brutalism UI** - Bold, modern design with vibrant colors
 
 ### Technical Highlights
 - ✅ **31+ REST API Endpoints** - Comprehensive API coverage
 - ✅ **Real-Time Transaction Validation** - Prevents double-booking and race conditions
-- ✅ **Database Persistence** - JPA/Hibernate with H2 (MySQL/PostgreSQL ready)
-- ✅ **Auto-Scaling** - Kubernetes HPA configuration (2-10 pods)
+- ✅ **PostgreSQL Database** - Production database on Neon serverless
+- ✅ **Auto-Seeded Data** - 15 doctors, 25 patients, 50 appointments, 53 beds
+- ✅ **CORS Configured** - Secure frontend-backend communication
 - ✅ **Health Monitoring** - Spring Boot Actuator with liveness/readiness probes
-- ✅ **Containerized** - Multi-stage Docker builds for optimized deployment
+- ✅ **Live Deployment** - Fully deployed and accessible on the internet
 
 ---
 
 ## 🛠️ Technology Stack
 
 ### Backend
-- **Java 21** - Modern Java with latest LTS features
+- **Java 17** - LTS version with modern features
 - **Spring Boot 3.2.0** - Enterprise-grade framework
 - **Spring Data JPA** - Object-Relational Mapping
 - **Hibernate** - ORM implementation
 - **Maven** - Dependency management and build automation
+- **PostgreSQL** - Production database (Neon serverless)
 
-### Database
-- **H2 Database** - In-memory database for development
-- **MySQL/PostgreSQL** - Production database support (configured)
+### Frontend
+- **React 18** - Modern UI library
+- **Vite** - Next-generation build tool
+- **TailwindCSS** - Utility-first CSS with neo-brutalism design
+- **Axios** - HTTP client
+- **React Router** - Client-side routing
 
-### DevOps & Cloud
-- **Docker** - Container platform
-- **Kubernetes** - Container orchestration
+### Deployment & Cloud
+- **Render** - Backend hosting (FREE tier)
+- **Neon** - Serverless PostgreSQL (FREE tier)
+- **Vercel** - Frontend hosting (FREE tier)
 - **Spring Boot Actuator** - Application monitoring and metrics
 
 ### Architecture Patterns
@@ -173,37 +192,59 @@ The Healthcare Management System (HMS) is a modern, cloud-native REST API applic
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Try the Live Application
 
-- **Java 21** or higher
+The easiest way to try HMS is to visit the live deployment:
+
+🌐 **[Live Demo](https://your-hms-frontend.vercel.app)**
+
+The application is pre-loaded with sample data including:
+- 15 Doctors across various specializations
+- 25 Patients with medical histories
+- 50 Appointments (past, present, and future)
+- 53 Beds across ICU, General, VIP, and Emergency wards
+
+---
+
+### Local Development
+
+#### Prerequisites
+
+- **Java 17** or higher
 - **Maven 3.9+**
-- **Docker** (optional, for containerization)
-- **kubectl** (optional, for Kubernetes deployment)
+- **Node.js 16+** (for frontend)
+- **PostgreSQL** (or use local setup script)
 
-### Quick Start
+#### Backend Setup
 
-#### 1. Clone the Repository
-
+1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/hms.git
+git clone https://github.com/Varshith2101/hms.git
 cd hms
 ```
 
-#### 2. Build the Project
-
+2. Set up PostgreSQL database (macOS)
 ```bash
-mvn clean package
+chmod +x setup-db.sh
+./setup-db.sh
 ```
 
-#### 3. Run the Application
-
+3. Run the backend
 ```bash
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-The application will start on **http://localhost:8080**
+Backend will start on **http://localhost:8080**
 
-#### 4. Verify It's Running
+#### Frontend Setup
+
+The frontend is in a separate repository:
+
+**Frontend Repository:** [https://github.com/yourusername/hms-frontend](https://github.com/yourusername/hms-frontend)
+
+See the frontend README for setup instructions.
+
+#### Verify Backend is Running
 
 ```bash
 curl http://localhost:8080/actuator/health
@@ -216,26 +257,23 @@ Expected response:
 }
 ```
 
-### Access H2 Database Console
-
-Open your browser and navigate to:
-```
-http://localhost:8080/h2-console
-```
-
-**Connection Details:**
-- JDBC URL: `jdbc:h2:mem:hmsdb`
-- Username: `sa`
-- Password: (leave empty)
-
 ---
 
 ## 📡 API Documentation
 
-### Base URL
+### Base URLs
+
+**Production (Live):**
+```
+https://your-hms-backend.onrender.com/api
+```
+
+**Local Development:**
 ```
 http://localhost:8080/api
 ```
+
+> **Note:** First request to production may take 30-60 seconds as the server wakes up from sleep (free tier limitation)
 
 ### Doctor Management APIs
 
@@ -378,21 +416,6 @@ The bed allocation system works similar to ATM transactions in banking:
 
 ## 🐳 Deployment
 
-### Cloud Deployment (FREE!)
-
-Deploy your HMS to the cloud for **100% FREE**:
-
-📘 **[FREE Deployment Guide](FREE_DEPLOYMENT.md)** - Deploy on Render + Neon + Vercel (No credit card required!)
-
-📗 **[Quick Deploy Guide](QUICKSTART_DEPLOY.md)** - 15-minute deployment with Railway + Vercel
-
-📙 **[Complete Deployment Guide](DEPLOYMENT.md)** - All platforms, production setup, troubleshooting
-
-📊 **[Platform Comparison](COMPARISON.md)** - Compare free hosting options
-
-**Recommended for beginners:** Use the [FREE Deployment Guide](FREE_DEPLOYMENT.md) - it's 100% free with no credit card required!
-
----
 
 ### Docker Deployment
 
@@ -470,6 +493,8 @@ kubectl delete -f k8s/
 
 ## 📂 Project Structure
 
+### Backend Repository (This Repo)
+
 ```
 hms/
 ├── src/
@@ -490,26 +515,38 @@ hms/
 │   │   │   │   ├── DoctorRepository.java
 │   │   │   │   ├── PatientRepository.java
 │   │   │   │   ├── AppointmentRepository.java
+│   │   │   │   ├── MedicalHistoryRepository.java
 │   │   │   │   └── BedAvailabilityRepository.java
-│   │   │   └── domain/                      # JPA Entities
-│   │   │       ├── Doctor.java
-│   │   │       ├── Patient.java
-│   │   │       ├── Appointment.java
-│   │   │       ├── MedicalHistory.java
-│   │   │       └── BedAvailability.java
+│   │   │   ├── domain/                      # JPA Entities
+│   │   │   │   ├── Doctor.java
+│   │   │   │   ├── Patient.java
+│   │   │   │   ├── Appointment.java
+│   │   │   │   ├── MedicalHistory.java
+│   │   │   │   └── BedAvailability.java
+│   │   │   └── config/                      # Configuration
+│   │   │       ├── WebConfig.java           # CORS configuration
+│   │   │       └── DataSeeder.java          # Database seeder
 │   │   └── resources/
-│   │       └── application.properties       # Application configuration
+│   │       ├── application.properties       # Main configuration
+│   │       └── application-prod.properties  # Production config
 │   └── test/                                # Test files
-├── k8s/                                     # Kubernetes configs
-│   ├── deployment.yaml                      # Deployment configuration
-│   ├── configmap.yaml                       # Configuration map
-│   └── hpa.yaml                            # Horizontal Pod Autoscaler
-├── Dockerfile                               # Docker configuration
-├── .dockerignore                           # Docker ignore rules
-├── pom.xml                                 # Maven configuration
-├── .gitignore                              # Git ignore rules
-└── README.md                               # This file
+├── deployment/                              # Deployment guides
+│   ├── FREE_DEPLOYMENT.md                   # Free deployment guide
+│   ├── QUICKSTART_DEPLOY.md                 # Quick start guide
+│   ├── DEPLOYMENT.md                        # Complete guide
+│   └── COMPARISON.md                        # Platform comparison
+├── setup-db.sh                              # PostgreSQL setup script
+├── render.yaml                              # Render deployment config
+├── Procfile                                 # Process file
+├── pom.xml                                  # Maven configuration
+└── README.md                                # This file
 ```
+
+### Frontend Repository (Separate)
+
+**Repository:** [https://github.com/yourusername/hms-frontend](https://github.com/yourusername/hms-frontend)
+
+The frontend is a React application with Neo-brutalism design, deployed separately on Vercel.
 
 ---
 
@@ -576,11 +613,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📊 Project Statistics
 
 - **Total API Endpoints:** 31+
-- **Database Tables:** 5
-- **Lines of Code:** ~2000+
-- **Languages:** Java, SQL
-- **Frameworks:** Spring Boot, Hibernate
-- **Deployment:** Docker, Kubernetes
+- **Database Tables:** 5 (Doctors, Patients, Appointments, Beds, Medical History)
+- **Seeded Data:** 15 doctors, 25 patients, 50 appointments, 53 beds
+- **Lines of Code:** ~3000+ (Backend + Frontend)
+- **Languages:** Java, JavaScript/React, SQL
+- **Frameworks:** Spring Boot, Hibernate, React, TailwindCSS
+- **Deployment:** Render (Backend), Neon (Database), Vercel (Frontend)
+- **Deployment Cost:** $0/month (100% free tier usage)
 
 ---
 
@@ -609,6 +648,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <div align="center">
 
 **⭐ If you find this project useful, please consider giving it a star!**
+
+**🌐 Live Demo:** [https://your-hms-frontend.vercel.app](https://your-hms-frontend.vercel.app)
 
 Made with ❤️ by Varshith Jalla
 
